@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mta-PolyDb", "mta\mta-PolyDb.csproj", "{941C32D1-C85B-4474-9794-5612FE8AB642}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{941C32D1-C85B-4474-9794-5612FE8AB642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{941C32D1-C85B-4474-9794-5612FE8AB642}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{941C32D1-C85B-4474-9794-5612FE8AB642}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{941C32D1-C85B-4474-9794-5612FE8AB642}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {85B7D259-243D-475B-8336-E4AB0C0E45BA}
+	EndGlobalSection
+EndGlobal
