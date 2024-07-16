@@ -27,7 +27,7 @@ namespace mta.Services
             {
                 // Tạo mới tenant và cơ sở dữ liệu
                 TenantId = tenantId;
-                ConnectionString = $"Host=localhost;Database=mta-mtDb-{tenantId};Username=mnduc9802;Password=123456";
+                ConnectionString = $"Host=localhost;Database=mtaDb-mtDb-{tenantId};Username=mnduc9802;Password=123456";
                 await CreateDatabaseIfNotExists(ConnectionString);
 
                 // Thêm tenant vào cơ sở dữ liệu chung
