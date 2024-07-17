@@ -22,12 +22,11 @@ namespace mta.Services.TenantService
         public Tenant CreateTenant(CreateTenantRequest request)
         {
             string newConnectionString = null;
-            string tenantId = Guid.NewGuid().ToString(); // Tạo GUID mới
 
             if (request.Isolated)
             {
                 // Generate a connection string for new tenant database
-                string dbName = "mtaDb-mtDb-" + tenantId; // Ensure the correct prefix
+                string dbName = "mtaDb-mtDb-" + request.Key; // Use Key to generate DB name
                 string defaultConnectionString = _configuration.GetConnectionString("DefaultConnection");
                 newConnectionString = defaultConnectionString.Replace("mtaDb-mtDb", dbName);
 
@@ -45,7 +44,7 @@ namespace mta.Services.TenantService
                     if (!dbContext.Database.GetAppliedMigrations().Any())
                     {
                         Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine($"Applying migrations for new '{tenantId}' tenant.");
+                        Console.WriteLine($"Applying migrations for new '{request.Name}' tenant.");
                         Console.ResetColor();
                         dbContext.Database.Migrate();
                     }
@@ -58,8 +57,9 @@ namespace mta.Services.TenantService
 
             Tenant tenant = new()
             {
-                Id = tenantId,
+                Id = Guid.NewGuid().ToString(), // Tạo GUID mới
                 Name = request.Name,
+                Key = request.Key, // Set Key
                 ConnectionString = newConnectionString,
             };
 

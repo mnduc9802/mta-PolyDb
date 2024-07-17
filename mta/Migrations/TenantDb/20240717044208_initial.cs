@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace mta.Migrations.TenantDb
+namespace mtaPolyDb.Migrations.TenantDb
 {
     /// <inheritdoc />
     public partial class initial : Migration
@@ -16,6 +16,7 @@ namespace mta.Migrations.TenantDb
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    Key = table.Column<string>(type: "text", nullable: false),
                     ConnectionString = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>

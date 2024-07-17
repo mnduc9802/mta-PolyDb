@@ -15,9 +15,9 @@ namespace mta.Services
             _context = context;
         }
 
-        public async Task<bool> SetTenant(string tenantName)
+        public async Task<bool> SetTenant(string tenantName, string key)
         {
-            var tenantInfo = await _context.Tenants.FirstOrDefaultAsync(x => x.Name == tenantName);
+            var tenantInfo = await _context.Tenants.FirstOrDefaultAsync(x => x.Name == tenantName && x.Key == key);
             if (tenantInfo != null)
             {
                 TenantId = tenantInfo.Id;
@@ -28,7 +28,7 @@ namespace mta.Services
             {
                 // Tạo mới tenant và cơ sở dữ liệu
                 TenantId = Guid.NewGuid().ToString(); // Tạo GUID mới
-                ConnectionString = $"Host=localhost;Database=mtaDb-mtDb-{TenantId};Username=mnduc9802;Password=123456";
+                ConnectionString = $"Host=localhost;Database=mtaDb-mtDb-{key};Username=mnduc9802;Password=123456";
                 await CreateDatabaseIfNotExists(ConnectionString);
 
                 // Thêm tenant vào cơ sở dữ liệu chung
@@ -36,6 +36,7 @@ namespace mta.Services
                 {
                     Id = TenantId,
                     Name = tenantName,
+                    Key = key, // Set Key
                     ConnectionString = ConnectionString
                 };
                 _context.Tenants.Add(newTenant);

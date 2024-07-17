@@ -1,12 +1,12 @@
 ﻿using mta.Models;
 using mta.Services.DTOs;
 using mta.Services.TenantService;
-using mta.Services.TenantService.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using mta.Services.ProductService.ProductService;
+using mta.Services.TenantService.DTOs;
 
 namespace mta.Services.ProductService.ProductService
 {
@@ -52,11 +52,12 @@ namespace mta.Services.ProductService.ProductService
                 var createTenantRequest = new CreateTenantRequest
                 {
                     Name = tenantId,
+                    Key = "DefaultKey", // Cung cấp key mặc định nếu cần
                     Isolated = true
                 };
 
                 tenant = _tenantService.CreateTenant(createTenantRequest);
-                _currentTenantService.SetTenant(tenantId).Wait(); // Đảm bảo SetTenant được gọi đồng bộ
+                _currentTenantService.SetTenant(tenantId, createTenantRequest.Key).Wait(); // Đảm bảo SetTenant được gọi đồng bộ
                 Console.ResetColor();
             }
 

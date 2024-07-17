@@ -7,7 +7,7 @@ using mta.Models;
 
 #nullable disable
 
-namespace mta.Migrations.TenantDb
+namespace mtaPolyDb.Migrations.TenantDb
 {
     [DbContext(typeof(TenantDbContext))]
     partial class TenantDbContextModelSnapshot : ModelSnapshot
@@ -27,6 +27,10 @@ namespace mta.Migrations.TenantDb
                         .HasColumnType("text");
 
                     b.Property<string>("ConnectionString")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")

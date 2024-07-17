@@ -8,10 +8,10 @@ using mta.Models;
 
 #nullable disable
 
-namespace mta.Migrations.TenantDb
+namespace mtaPolyDb.Migrations.TenantDb
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20240715023655_initial")]
+    [Migration("20240717044208_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -30,6 +30,10 @@ namespace mta.Migrations.TenantDb
                         .HasColumnType("text");
 
                     b.Property<string>("ConnectionString")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")

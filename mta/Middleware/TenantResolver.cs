@@ -14,9 +14,10 @@ namespace mta.Middleware
         public async Task InvokeAsync(HttpContext context, ICurrentTenantService currentTenantService)
         {
             context.Request.Headers.TryGetValue("X-Tenant", out var tenantFromHeader);
-            if (string.IsNullOrEmpty(tenantFromHeader) == false)
+            context.Request.Headers.TryGetValue("Key", out var keyFromHeader);
+            if (string.IsNullOrEmpty(tenantFromHeader) == false && string.IsNullOrEmpty(keyFromHeader) == false)
             {
-               await currentTenantService.SetTenant(tenantFromHeader);
+                await currentTenantService.SetTenant(tenantFromHeader, keyFromHeader);
             } 
             await _next(context);    
         }
