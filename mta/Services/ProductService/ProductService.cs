@@ -51,7 +51,6 @@ namespace mta.Services.ProductService.ProductService
 
                 var createTenantRequest = new CreateTenantRequest
                 {
-                    Id = tenantId,
                     Name = tenantId,
                     Isolated = true
                 };

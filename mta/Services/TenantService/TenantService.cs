@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using mta.Models;
 using mta.Services.TenantService.DTOs;
-
+using System;
+using System.Linq;
 
 namespace mta.Services.TenantService
 {
@@ -21,10 +22,12 @@ namespace mta.Services.TenantService
         public Tenant CreateTenant(CreateTenantRequest request)
         {
             string newConnectionString = null;
-            if (request.Isolated == true)
+            string tenantId = Guid.NewGuid().ToString(); // Tạo GUID mới
+
+            if (request.Isolated)
             {
                 // Generate a connection string for new tenant database
-                string dbName = "mtaDb-mtDb-" + request.Id; // Ensure the correct prefix
+                string dbName = "mtaDb-mtDb-" + tenantId; // Ensure the correct prefix
                 string defaultConnectionString = _configuration.GetConnectionString("DefaultConnection");
                 newConnectionString = defaultConnectionString.Replace("mtaDb-mtDb", dbName);
 
@@ -42,7 +45,7 @@ namespace mta.Services.TenantService
                     if (!dbContext.Database.GetAppliedMigrations().Any())
                     {
                         Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine($"Applying migrations for new '{request.Id}' tenant.");
+                        Console.WriteLine($"Applying migrations for new '{tenantId}' tenant.");
                         Console.ResetColor();
                         dbContext.Database.Migrate();
                     }
@@ -55,7 +58,7 @@ namespace mta.Services.TenantService
 
             Tenant tenant = new()
             {
-                Id = request.Id,
+                Id = tenantId,
                 Name = request.Name,
                 ConnectionString = newConnectionString,
             };
