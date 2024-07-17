@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "e7d22280-7eba-4b3e-97cf-49cf690bd6fe",
+		"name": "Multi Tenant App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36505670"
+	},
+	"item": [
+		{
+			"name": "Create-Product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Tenant",
+						"value": "AnhGiang345",
+						"type": "text"
+					},
+					{
+						"key": "Key",
+						"value": "AG345",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"AK-47\",\r\n    \"description\": \"Assault Rifle Weapon\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7077/api/Products",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7077",
+					"path": [
+						"api",
+						"Products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get-Product",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Tenant",
+						"value": "AnhGiang",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:7077/api/Products",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7077",
+					"path": [
+						"api",
+						"Products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete-Product",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-Tenant",
+						"value": "AnhGiang",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7077/api/Products?id=20",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7077",
+					"path": [
+						"api",
+						"Products"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create-Tenant",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"AnhGiang2\",\r\n  \"isolated\": true,\r\n  \"key\": \"AG2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7077/api/Tenants",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7077",
+					"path": [
+						"api",
+						"Tenants"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
