@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using mta.Models;
 using mta.Services.TenantService.DTOs;
+using Npgsql;
 using System;
 using System.Linq;
 
@@ -36,17 +37,19 @@ namespace mta.Services.TenantService
                 // Create a new tenant database and apply migrations
                 try
                 {
-                    using IServiceScope scopeTenant = _serviceProvider.CreateScope();
-                    ApplicationDbContext dbContext = scopeTenant.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                    dbContext.Database.SetConnectionString(newConnectionString);
-
-                    // Check if database exists and apply migrations
-                    if (!dbContext.Database.GetAppliedMigrations().Any())
+                    using (IServiceScope scopeTenant = _serviceProvider.CreateScope())
                     {
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine($"Applying migrations for new '{request.Name}' tenant.");
-                        Console.ResetColor();
-                        dbContext.Database.Migrate();
+                        ApplicationDbContext dbContext = scopeTenant.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                        dbContext.Database.SetConnectionString(newConnectionString);
+
+                        // Check if database exists and apply migrations
+                        if (!dbContext.Database.GetAppliedMigrations().Any())
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine($"Applying migrations for new '{request.Name}' tenant.");
+                            Console.ResetColor();
+                            dbContext.Database.Migrate();
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -55,18 +58,33 @@ namespace mta.Services.TenantService
                 }
             }
 
-            Tenant tenant = new()
+            // Check if the Key already exists
+            var existingTenant = _context.Tenants.FirstOrDefault(t => t.Key == request.Key);
+            if (existingTenant != null)
             {
-                Id = Guid.NewGuid().ToString(), // Tạo GUID mới
+                throw new DuplicateKeyException($"Key '{request.Key}' already exists. Please choose a different key.");
+            }
+
+            // Create the new tenant
+            Tenant tenant = new Tenant
+            {
+                Id = Guid.NewGuid().ToString(),
                 Name = request.Name,
-                Key = request.Key, // Set Key
-                ConnectionString = newConnectionString,
+                Key = request.Key,
+                ConnectionString = newConnectionString
             };
 
             _context.Add(tenant);
             _context.SaveChanges();
 
             return tenant;
+        }
+    }
+
+    public class DuplicateKeyException : Exception
+    {
+        public DuplicateKeyException(string message) : base(message)
+        {
         }
     }
 }

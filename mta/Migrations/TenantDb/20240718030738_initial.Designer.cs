@@ -11,7 +11,7 @@ using mta.Models;
 namespace mtaPolyDb.Migrations.TenantDb
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20240717044208_initial")]
+    [Migration("20240718030738_initial")]
     partial class initial
     {
         /// <inheritdoc />

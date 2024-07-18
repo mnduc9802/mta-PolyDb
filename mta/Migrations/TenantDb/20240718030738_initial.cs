@@ -22,6 +22,7 @@ namespace mtaPolyDb.Migrations.TenantDb
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tenants", x => x.Id);
+                    table.UniqueConstraint("IX_Tenants_Key", x => x.Key);
                 });
         }
 
