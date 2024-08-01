@@ -1,1 +1,1 @@
-# Multi Tenant App - Multi Database
+# mta - Multi Database
